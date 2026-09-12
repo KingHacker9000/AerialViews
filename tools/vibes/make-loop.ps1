@@ -45,10 +45,11 @@ $End = $MainEnd.ToString("0.###", $Invariant)
 #   2) dissolve source tail [T-D, T] into source head [0, D]
 #   3) append the dissolve after the middle section
 # The rendered clip therefore starts and ends at the same point in the source timeline.
-$Filter = "[0:v]fps=${Fps},split=3[vmain][vtail][vhead];" +
-          "[vmain]trim=start=${D}:end=${End},setpts=PTS-STARTPTS[main];" +
-          "[vtail]trim=start=${End}:end=${T},setpts=PTS-STARTPTS[tail];" +
-          "[vhead]trim=start=0:end=${D},setpts=PTS-STARTPTS[head];" +
+# fps + settb on each branch gives xfade a constant frame rate/timebase even for odd source files.
+$Filter = "[0:v]split=3[vmain][vtail][vhead];" +
+          "[vmain]trim=start=${D}:end=${End},setpts=PTS-STARTPTS,fps=${Fps},settb=AVTB[main];" +
+          "[vtail]trim=start=${End}:end=${T},setpts=PTS-STARTPTS,fps=${Fps},settb=AVTB[tail];" +
+          "[vhead]trim=start=0:end=${D},setpts=PTS-STARTPTS,fps=${Fps},settb=AVTB[head];" +
           "[tail][head]xfade=transition=fade:duration=${D}:offset=0[cross];" +
           "[main][cross]concat=n=2:v=1:a=0," +
           "scale=${Width}:${Height}:force_original_aspect_ratio=decrease," +
