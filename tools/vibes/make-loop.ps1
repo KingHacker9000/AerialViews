@@ -25,7 +25,7 @@ if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) {
     throw "ffprobe was not found on PATH. Install FFmpeg first; see VIBES.md."
 }
 
-$DurationText = (& ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 -- $Input | Select-Object -First 1)
+$DurationText = (& ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $Input | Select-Object -First 1)
 if (-not $DurationText) {
     throw "Could not read the video duration from: $Input"
 }
