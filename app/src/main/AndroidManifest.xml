@@ -72,19 +72,33 @@
         tools:ignore="DataExtractionRules,MediaCapabilities"
         >
 
-        <!-- Default launch point -->
+        <!-- Projector-first launch point. This works even when a device hides Dream settings. -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.vibes.VibesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true">
-            <!-- Main app intent -->
+            android:exported="true"
+            android:label="@string/vibes_app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
 
+        <!-- Standalone looping player for cheap Android projectors and manual playback. -->
+        <activity
+            android:name=".ui.vibes.VibePlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:label="@string/vibes_app_name" />
+
+        <!-- Original Aerial Views settings remain available from Vibes > Advanced settings. -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true">
             <!-- Handle .avsettings files passed by another app eg. File Manager -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

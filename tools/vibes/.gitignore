@@ -1,0 +1,11 @@
+# Generated media is intentionally local/USB content, not app source.
+raw/
+ready/
+seeds/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.png
+*.jpg
+*.jpeg
